@@ -3,6 +3,7 @@ import "./App.css";
 import Website from "./pages/Website";
 import Layout from "./Layout/Layout";
 import Properties from "./pages/properties/properties";
+import Property from "./pages/property/Property";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -19,7 +20,10 @@ function App() {
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<Website />} />
-              <Route path="/properties" element={<Properties />} />
+              <Route path="/properties">
+              <Route index element = {<Properties />} />
+              <Route path=":propertyId" element = {<Property />} />
+              </Route>
             </Route>
           </Routes>
         </Suspense>
