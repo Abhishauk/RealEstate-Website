@@ -41,7 +41,7 @@ const Header = () => {
               Login
             </button> :
             <div>
-             {/* <ProfileMenu  user = { user } logout = { logout }/> */}
+             <ProfileMenu  user = { user } logout = { logout }/>
             </div>
             }
           </div>

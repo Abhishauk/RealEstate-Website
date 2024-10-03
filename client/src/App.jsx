@@ -10,10 +10,13 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 function App() {
   const queryClient = new QueryClient();
 
+
   return (
+
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Suspense fallback={<div>Loading...</div>}>
@@ -31,6 +34,7 @@ function App() {
       <ToastContainer />
       <ReactQueryDevtools initialIsOpen = {false} />
     </QueryClientProvider>
+   
   );
 }
 
