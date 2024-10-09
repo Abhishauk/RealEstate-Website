@@ -37,3 +37,112 @@ export const getProperty = async (id) => {
     throw error;
   }
 }
+
+export const createUser = async (email, token) => {
+  try {
+    const response = await api.post(
+      `/user/register`, 
+      { email }, 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    toast.error("Something went wrong , Please try again")
+    throw error
+  }
+};
+
+export const bookVisit = async(date , propertyId, email, token) => {
+  try {
+    await api.post(
+      `/user/bookVisit/${propertyId}`,
+      {
+        email,
+        id: propertyId,
+        date: dayjs(date).format("DD/MM/YY")
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      }
+    )
+    
+  } catch (error) {
+    toast.error("Something went wrong, please try again")
+    throw error
+    
+  }
+}
+
+export const removeBooking = async(id , email , token) => {
+  try {
+
+    await api.post(
+      `/user/removeBooking/${id}`,
+      {
+        email,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    
+  } catch (error) {
+    {
+      toast.error("Something went wrong, Please try again");
+      throw error
+    }
+    
+  }
+}
+
+export const toFav = async(id , email , token) => {
+   try {
+    await api.post(
+      `user/toFav/${id}` ,
+      {
+        email,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}` ,
+        },
+      }
+    )
+    
+   } catch (error) {
+     throw error;
+   }
+}
+
+export const getAllFav = async (email, token) => {
+  if(!token) return 
+  try{
+
+    const res = await api.post(
+      `/user/allFav`,
+      {
+        email,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+      
+    return res.data["favResidenciesID"]
+
+  }catch(e)
+  {
+    toast.error("Something went wrong while fetching favs");
+    throw e
+  }
+} 

@@ -1,5 +1,8 @@
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import "./App.css";
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';  // Specific styles for the date components
+
 import Website from "./pages/Website";
 import Layout from "./Layout/Layout";
 import Properties from "./pages/properties/properties";
@@ -9,14 +12,19 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import UserDetailContext from "./context/UserDetailesContext";
 
 function App() {
   const queryClient = new QueryClient();
+  const [ userDetails , setUserDetails ] = useState({
+    favourites: [],
+    bookings: [],
+    token: null
+  })
 
 
   return (
-
+    <UserDetailContext.Provider value={{userDetails , setUserDetails}}>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Suspense fallback={<div>Loading...</div>}>
@@ -34,7 +42,7 @@ function App() {
       <ToastContainer />
       <ReactQueryDevtools initialIsOpen = {false} />
     </QueryClientProvider>
-   
+    </UserDetailContext.Provider>
   );
 }
 
