@@ -7,10 +7,12 @@ import { useMutation } from 'react-query';
 import { createUser } from '../utils/api';
 import { useAuth0 } from '@auth0/auth0-react';
 import useFavourites from '../hooks/useFavourites';
+import UseBookings from '../hooks/UseBookings';
 
 const Layout = () => {
 
-  useFavourites()
+  useFavourites();
+  UseBookings();
 
   const { isAuthenticated , user , getAccessTokenWithPopup } = useAuth0()
   const { setUserDetails } = useContext(UserDetailContext)

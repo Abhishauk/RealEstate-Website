@@ -24,6 +24,7 @@ export const sliderSettings = {
 
 };
 
+// Update Favourites Function
 export const updateFavourites = (id, favourites = []) => {
   if (favourites.includes(id)) {
     return favourites.filter((resId) => resId !== id);
@@ -32,8 +33,8 @@ export const updateFavourites = (id, favourites = []) => {
   }
 };
 
+// Check Favourites Function
 export const checkFavourites = (id, favourites = []) => {
   return favourites.includes(id) ? "#fa3e5f" : "white";
 };
-
 

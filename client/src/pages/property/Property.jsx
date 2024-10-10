@@ -32,6 +32,7 @@ const Property = () => {
     userDetails : { token , bookings }, setUserDetails } = useContext(UserDetailContext);
 
 
+
   const {mutate: cancelBooking, isLoading: cancelling } = useMutation({
      mutationFn: ()=> removeBooking(id , user?.email, token),
      onSuccess: () => {

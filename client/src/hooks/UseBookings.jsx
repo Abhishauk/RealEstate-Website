@@ -1,10 +1,11 @@
+
 import React, { useContext, useEffect, useRef } from "react";
 import UserDetailContext from "../context/UserDetailesContext.js";
 import { useQuery } from "react-query";
 import { useAuth0 } from "@auth0/auth0-react";
-import { allFav } from "../utils/api.js";
+import { getAllBookings } from "../utils/api.js";
 
-const useFavourites = () => {
+const UseBookings = () => {
   const { userDetails, setUserDetails } = useContext(UserDetailContext);
   const queryRef = useRef();
   const { user } = useAuth0();
@@ -12,10 +13,10 @@ const useFavourites = () => {
   
 
   const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: "allFavourites",
-    queryFn: () => allFav(user?.email, userDetails?.token),
+    queryKey: "allBookings",
+    queryFn: () => getAllBookings(user?.email, userDetails?.token),
     onSuccess: (data) =>
-      setUserDetails((prev) => ({ ...prev, favourites: data })),
+      setUserDetails((prev) => ({ ...prev, bookings: data })),
     enabled: user !== undefined,
     staleTime: 30000,
   });
@@ -29,4 +30,4 @@ const useFavourites = () => {
   return { data, isError, isLoading, refetch };
 };
 
-export default useFavourites;
+export default UseBookings;
