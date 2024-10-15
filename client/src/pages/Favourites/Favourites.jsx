@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import "./properties.css";
 import useProperties from "../../hooks/useProperties";
 import { PuffLoader } from "react-spinners";
-import PropertyCard from "../../components/PropertyCard/PropertyCard.jsx";
-import { map, property } from "lodash";
+import PropertyCard from "../../components/PropertyCard/PropertyCard";
+import "../Properties/Properties.css";
+import UserDetailContext from "../../context/UserDetailesContext";
 
-const properties = () => {
+const Favourites = () => {
   const { data, isError, isLoading } = useProperties();
   const [filter, setFilter] = useState("");
+  const { userDetails: { favourites } } = useContext(UserDetailContext);
 
   if (isError) {
     return (
@@ -37,9 +38,10 @@ const properties = () => {
         <SearchBar filter={filter} setFilter={setFilter} />
 
         <div className="paddings flexCenter properties">
-          {// data.map((card , i) => (<PropertyCard card={card} key = {i}/>))
+          {// data.map((card, i)=> (<PropertyCard card={card} key={i}/>))
 
           data
+            .filter(property => favourites.includes(property.id))
             .filter(
               property =>
                 property.title.toLowerCase().includes(filter.toLowerCase()) ||
@@ -53,4 +55,4 @@ const properties = () => {
   );
 };
 
-export default properties;
+export default Favourites;
