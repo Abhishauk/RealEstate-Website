@@ -64,8 +64,8 @@
   width: 30rem;
   height: 35rem;
   overflow: hidden;
-  border-radius: 15rem 15rem 0 0;
-  border: 8px solid rgba(255, 255, 255, 0.12);
+  border-radius: 2rem 2rem 2rem 2rem;
+  border: 8px solid rgba(79, 79, 79, 0.12);
 }
 .image-container>img{
     width: 100%;
