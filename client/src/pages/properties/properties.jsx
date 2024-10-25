@@ -1,14 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import "./properties.css";
 import useProperties from "../../hooks/useProperties";
 import { PuffLoader } from "react-spinners";
 import PropertyCard from "../../components/PropertyCard/PropertyCard.jsx";
-import { map, property } from "lodash";
+import AddPropertyModal from "../../components/AddPropertyModal/AddPropertyModal"; // Adjust the import path as necessary
 
-const properties = () => {
+const Properties = () => {
   const { data, isError, isLoading } = useProperties();
   const [filter, setFilter] = useState("");
+  const [modalOpened, setModalOpened] = useState(false);
+  const [properties, setProperties] = useState([]); // Local state to hold properties
+
+  // UseEffect to set initial properties from API data
+  useEffect(
+    () => {
+      if (data) {
+        setProperties(data);
+      }
+    },
+    [data]
+  );
+
+  // Function to handle adding a new property
+  const handleAddProperty = newProperty => {
+    setProperties(prev => [...prev, newProperty]); // Immediately add the new property to state
+    setModalOpened(false); // Close the modal
+  };
 
   if (isError) {
     return (
@@ -31,15 +49,14 @@ const properties = () => {
       </div>
     );
   }
+
   return (
     <div className="wrapper">
       <div className="flexColCenter paddings innerWidth properties-container">
         <SearchBar filter={filter} setFilter={setFilter} />
 
         <div className="paddings flexCenter properties">
-          {// data.map((card , i) => (<PropertyCard card={card} key = {i}/>))
-
-          data
+          {properties
             .filter(
               property =>
                 property.title.toLowerCase().includes(filter.toLowerCase()) ||
@@ -48,9 +65,17 @@ const properties = () => {
             )
             .map((card, i) => <PropertyCard card={card} key={i} />)}
         </div>
+
+        <button onClick={() => setModalOpened(true)}>Add Property</button>
+
+        <AddPropertyModal
+          opened={modalOpened}
+          setOpened={setModalOpened}
+          onAddProperty={handleAddProperty}
+        />
       </div>
     </div>
   );
 };
 
-export default properties;
+export default Properties;

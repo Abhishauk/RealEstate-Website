@@ -1,12 +1,13 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Button, Group, NumberInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import React, { useContext } from "react";
-import UserDetailContext from "../../context/UserDetailesContext.js"
+import React, { useContext, useEffect } from "react";
+import UserDetailContext from "../../context/UserDetailesContext.js";
 import useProperties from "../../hooks/useProperties.jsx";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import { createResidency } from "../../utils/api";
+
 const Facilities = ({
   prevStep,
   propertyDetails,
@@ -21,9 +22,9 @@ const Facilities = ({
       bathrooms: propertyDetails.facilities.bathrooms,
     },
     validate: {
-      bedrooms: (value) => (value < 1 ? "Must have atleast one room" : null),
+      bedrooms: (value) => (value < 1 ? "Must have at least one room" : null),
       bathrooms: (value) =>
-        value < 1 ? "Must have atleast one bathroom" : null,
+        value < 1 ? "Must have at least one bathroom" : null,
     },
   });
 
@@ -42,18 +43,26 @@ const Facilities = ({
 
   // ==================== upload logic
   const { user } = useAuth0();
+  console.log("User object:", user); // Debugging log to check the user object
   const {
     userDetails: { token },
   } = useContext(UserDetailContext);
   const { refetch: refetchProperties } = useProperties();
 
-  const {mutate, isLoading} = useMutation({
-    mutationFn: ()=> createResidency({
-        ...propertyDetails, facilities: {bedrooms, parkings , bathrooms},
-    }, token),
-    onError: ({ response }) => toast.error(response.data.message, {position: "bottom-right"}),
-    onSettled: ()=> {
-      toast.success("Added Successfully", {position: "bottom-right"});
+  const { mutate, isLoading } = useMutation({
+    mutationFn: () =>
+      createResidency(
+        {
+          ...propertyDetails,
+          facilities: { bedrooms, parkings, bathrooms },
+          userEmail: user?.email || "default@example.com", // Fallback if user email is not available
+        },
+        token
+      ),
+    onError: ({ response }) =>
+      toast.error(response.data.message, { position: "bottom-right" }),
+    onSettled: () => {
+      toast.success("Added Successfully", { position: "bottom-right" });
       setPropertyDetails({
         title: "",
         description: "",
@@ -67,14 +76,13 @@ const Facilities = ({
           parkings: 0,
           bathrooms: 0,
         },
-        userEmail: user?.email,
-      })
-      setOpened(false)
-      setActiveStep(0)
-      refetchProperties()
-    }
-
-  })
+        userEmail: user?.email, // Ensure it's reset correctly
+      });
+      setOpened(false);
+      setActiveStep(0);
+      refetchProperties();
+    },
+  });
 
   return (
     <Box maw="30%" mx="auto" my="sm">
@@ -87,7 +95,7 @@ const Facilities = ({
         <NumberInput
           withAsterisk
           label="No of Bedrooms"
-          min={0}
+          min={1}
           {...form.getInputProps("bedrooms")}
         />
         <NumberInput
@@ -98,7 +106,7 @@ const Facilities = ({
         <NumberInput
           withAsterisk
           label="No of Bathrooms"
-          min={0}
+          min={1}
           {...form.getInputProps("bathrooms")}
         />
         <Group position="center" mt="xl">

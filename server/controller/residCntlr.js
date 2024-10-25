@@ -1,5 +1,5 @@
-import asyncHandler from 'express-async-handler';
-import { PrismaClient } from '@prisma/client';
+import asyncHandler from "express-async-handler";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -15,10 +15,10 @@ export const createResidency = asyncHandler(async (req, res) => {
     city,
     facilities,
     image,
-    userEmail,
+    userEmail
   } = req.body.data;
 
-  console.log('User Email:', userEmail); // Debugging
+  console.log("User Email:", userEmail); // Debugging
   if (!userEmail) {
     throw new Error("User email is missing from the request");
   }
@@ -34,8 +34,8 @@ export const createResidency = asyncHandler(async (req, res) => {
         city,
         facilities,
         image,
-        owner: { connect: { email: userEmail } },
-      },
+        owner: { connect: { email: userEmail } }
+      }
     });
 
     res.send({ message: "Residency created successfully", residency });
@@ -47,32 +47,24 @@ export const createResidency = asyncHandler(async (req, res) => {
   }
 });
 
-  
-  export const getAllResidencies = asyncHandler(async(req,res) => {
-    const residencies = await prisma.residency.findMany({
-        orderBy: {
-            createdAt: "desc" ,
-        },
-    });
-    res.send(residencies);
-    });
-
-
-  export const getResidency = asyncHandler(async(req,res) => {
-    const {id} = req.params;
-
-    try {
-
-        const residency = await prisma.residency.findUnique({
-            where: {id}
-        })
-        res.send(residency);
-        
-    } catch (error) {
-        throw new Error(error.message);
-        
+export const getAllResidencies = asyncHandler(async (req, res) => {
+  const residencies = await prisma.residency.findMany({
+    orderBy: {
+      createdAt: "desc"
     }
-  })
+  });
+  res.send(residencies);
+});
 
-  
+export const getResidency = asyncHandler(async (req, res) => {
+  const { id } = req.params;
 
+  try {
+    const residency = await prisma.residency.findUnique({
+      where: { id }
+    });
+    res.send(residency);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+});
