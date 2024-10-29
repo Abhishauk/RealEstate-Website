@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-    "build": "prisma generate && echo \"Building the server...\""
+    "postinstall": "prisma generate"
+    
   },
   "author": "",
   "license": "ISC",
