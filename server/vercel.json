@@ -1,11 +1,17 @@
-
 {
     "version": 2,
-    "name": "node-js",
+    "name": "real-estate-server",
     "builds": [
-        { "src": "index.js", "use": "@vercel/node" }
+      {
+        "src": "index.js",
+        "use": "@vercel/node"
+      }
     ],
     "routes": [
-        { "src": "/(.*)", "dest": "/" }
+      {
+        "src": "/api/(.*)", 
+        "dest": "/index.js"
+      }
     ]
-}
+  }
+  

@@ -1,14 +1,13 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Real Estate Website Backend",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "postinstall": "prisma generate"
-    
+    "postinstall": "npx prisma generate"
   },
-  "author": "",
+  "author": "Abhisha UK",
   "license": "ISC",
   "type": "module",
   "dependencies": {
@@ -19,7 +18,9 @@
     "express": "^4.19.2",
     "express-async-handler": "^1.2.0",
     "express-oauth2-jwt-bearer": "^1.6.0",
-    "nodemon": "^3.1.4",
+    "nodemon": "^3.1.4"
+  },
+  "devDependencies": {
     "prisma": "^5.19.1"
   }
 }
