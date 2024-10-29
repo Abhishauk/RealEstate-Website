@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "postinstall": "prisma generate"
+    "postinstall": "if [ \"$VERCEL\" = \"1\" ]; then prisma generate; fi"
   },
   "author": "",
   "license": "ISC",
@@ -18,7 +18,9 @@
     "express": "^4.19.2",
     "express-async-handler": "^1.2.0",
     "express-oauth2-jwt-bearer": "^1.6.0",
-    "nodemon": "^3.1.4",
+    "nodemon": "^3.1.4"
+  },
+  "devDependencies": {
     "prisma": "^5.19.1"
   }
 }
